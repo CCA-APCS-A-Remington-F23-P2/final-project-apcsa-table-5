@@ -1,5 +1,4 @@
-import javax.swing.JFrame;
-import java.awt.Component;
+import javax.swing.*;
 
 public class FlappyRaven extends JFrame
 {
@@ -13,7 +12,7 @@ public class FlappyRaven extends JFrame
         setSize(WIDTH,HEIGHT);
 
         Sky theGame = new Sky();
-        ((Component)theGame).setFocusable(true);
+        theGame.setFocusable(true);
 
         getContentPane().add(theGame);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
