@@ -1,13 +1,9 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import static java.lang.Character.*;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.awt.event.ActionListener;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class Sky extends Canvas implements KeyListener, Runnable {
     private boolean[] keys;
