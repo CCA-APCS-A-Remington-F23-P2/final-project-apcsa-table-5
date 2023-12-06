@@ -53,14 +53,26 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
             keys[0] = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+            keys[1] = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            keys[2] = true;
         }
     }
 
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
             keys[0] = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+            keys[1] = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            keys[2] = false;
         }
     }
 
