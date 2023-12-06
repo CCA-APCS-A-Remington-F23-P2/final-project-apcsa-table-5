@@ -4,8 +4,8 @@ import java.awt.Component;
 public class FlappyRaven extends JFrame
 {
 
-    private static final int WIDTH = 400; //800
-    private static final int HEIGHT = 300; //600
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 450; 
 
     public FlappyRaven()
     {
