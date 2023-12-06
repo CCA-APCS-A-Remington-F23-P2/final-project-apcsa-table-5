@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class OuterSpace extends Canvas implements KeyListener, Runnable {
-    public OuterSpace() {
+public class Sky extends Canvas implements KeyListener, Runnable {
+    public Sky() {
         setBackground(Color.black);
 
         keys = new boolean[5];
