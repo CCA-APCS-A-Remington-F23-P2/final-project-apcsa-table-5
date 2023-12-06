@@ -19,9 +19,9 @@ public class FlappyRaven extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-    
+
     public static void main( String args[] )
     {
-        StarFighter run = new StarFighter();
+        FlappyRaven run = new FlappyRaven();
     }
 }
