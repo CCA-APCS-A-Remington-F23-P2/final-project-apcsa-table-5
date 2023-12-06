@@ -36,17 +36,17 @@ public class Raven extends MovingThing
       }
   }
 
-  public boolean isHit(List<Pipes> pipes)
-  {
-      boolean hit = false;
-      for(int i = 0; i < pipes.size(); i++){
-          if(didCollide(pipes.get(i))){
-              pipes.remove(i--);
-              hit = true;
-          }
-      }
-      return hit;
-  }
+  // public boolean isHit(List<Pipes> pipes)
+  // {
+  //     boolean hit = false;
+  //     for(int i = 0; i < pipes.size(); i++){
+  //         if(didCollide(pipes.get(i))){
+  //             pipes.remove(i--);
+  //             hit = true;
+  //         }
+  //     }
+  //     return hit;
+  // }
 
   public void draw( Graphics window )
   {
