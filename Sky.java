@@ -11,10 +11,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Sky extends Canvas implements KeyListener, Runnable {
+    private boolean[] keys;
+    private BufferedImage back;
+
     public Sky() {
         setBackground(Color.black);
 
-        keys = new boolean[5];
+        keys = new boolean[3];
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -49,17 +52,17 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         twoDGraph.drawImage(back, null, 0, 0);
     }
 
-    // public void keyPressed(KeyEvent e) {
-    //     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-    //         keys[0] = true;
-    //     }
-    // }
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            keys[0] = true;
+        }
+    }
 
-    // public void keyReleased(KeyEvent e) {
-    //     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-    //         keys[0] = false;
-    //     }
-    // }
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            keys[0] = false;
+        }
+    }
 
     public void keyTyped(KeyEvent e) {
         // no code needed here
