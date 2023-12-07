@@ -13,6 +13,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private Raven ravenRed;
     private Raven ravenBlack;
 
+    private boolean canPressQ = true;
+    private boolean canPressP = true;
+
     private ArrayList<Pipes> pipes;
 
     public Sky() {
@@ -65,6 +68,22 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         ravenBlack.draw(graphToBack);
         ravenRed.draw(graphToBack);
 
+        if(keys[0]){
+          if(canPressQ){
+            ravenRed.move("UP");
+            canPressQ = false;
+          }
+        }
+        if(keys[1]){
+          if(canPressP){
+            ravenBlack.move("UP");
+            canPressP = false;
+          }
+        }
+
+        ravenBlack.move("DOWN");
+        ravenRed.move("DOWN");
+
         twoDGraph.drawImage(back, null, 0, 0);
     }
 
@@ -83,9 +102,11 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_Q) {
             keys[0] = false;
+            canPressQ = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_P) {
             keys[1] = false;
+            canPressP = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             keys[2] = false;

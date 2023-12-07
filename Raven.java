@@ -46,9 +46,9 @@ public class Raven extends MovingThing
   public void move(String direction)
   {
       if(direction.equals("DOWN")){
-          setY(getY()-10);
+          setY(getY()+1);
       } else if(direction.equals("UP")){
-          setY(getY()+10);
+          setY(getY()-50);
       }
   }
 
