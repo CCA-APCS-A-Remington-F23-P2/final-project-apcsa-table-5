@@ -9,6 +9,7 @@ import java.util.List;
 public class Raven extends MovingThing
 {
   private Image image;
+  private String imageName;
 
   public Raven()
   {
@@ -20,10 +21,25 @@ public class Raven extends MovingThing
       this(x, y, 10, 10);
   }
 
+  public Raven(int x, int y, int w, int h) {
+    super(x, y, w, h);
+  }
+  
   // all ctors call this ctor
-  public Raven(int x, int y, int w, int h)
+  public Raven(int x, int y, int w, int h, String img)
   {
     super(x, y, w, h);
+    imageName = img;
+
+    try
+    {
+      URL url = getClass().getResource(imageName);
+      image = ImageIO.read(url);
+    }
+    catch(Exception e)
+    {
+      //feel free to do something here
+    }
   }
 
 
