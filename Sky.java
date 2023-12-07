@@ -4,14 +4,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Sky extends Canvas implements KeyListener, Runnable {
     private boolean[] keys;
     private BufferedImage back;
     private Image background;
 
+    private ArrayList<Pipes> pipes;
+
     public Sky() {
         keys = new boolean[3];
+        pipes = new ArrayList<>();
+        pipes.add(new Pipes(400, 0));
+        pipes.add(new Pipes(900, 0));
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -46,6 +52,10 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         Graphics graphToBack = back.createGraphics();
 
         graphToBack.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+
+        for (Pipes pipe : pipes) {
+            pipe.draw(graphToBack);
+        }
 
         twoDGraph.drawImage(back, null, 0, 0);
     }
