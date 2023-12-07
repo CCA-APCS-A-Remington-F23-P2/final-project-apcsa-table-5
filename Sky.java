@@ -21,8 +21,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     public Sky() {
         keys = new boolean[3];
         pipes = new ArrayList<>();
-        pipes.add(new Pipes(400, 0));
-        pipes.add(new Pipes(900, 0));
+        pipes.add(new Pipes(1000, 0));
+        pipes.add(new Pipes(1350, 0));
 
         ravenBlack = new Raven(150, 200, 60, 60, "raven1.png");
         ravenRed = new Raven(50, 200, 60, 60, "raven2.png");
@@ -63,6 +63,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
         for (Pipes pipe : pipes) {
             pipe.draw(graphToBack);
+            pipe.move("LEFT");
         }
 
         ravenBlack.draw(graphToBack);
