@@ -10,8 +10,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private boolean[] keys;
     private BufferedImage back;
     private Image background;
-    private Raven ravenRed;
+
     private Raven ravenBlack;
+//    private Raven ravenRed;
 
     private boolean canPressQ = true;
     private boolean canPressP = true;
@@ -25,7 +26,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         pipes.add(new Pipes(1350, 0));
 
         ravenBlack = new Raven(150, 200, 60, 60, "raven1.png");
-        ravenRed = new Raven(50, 200, 60, 60, "raven2.png");
+//        ravenRed = new Raven(50, 200, 60, 60, "raven2.png");
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -67,26 +68,26 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         }
 
         ravenBlack.draw(graphToBack);
-        ravenRed.draw(graphToBack);
+//        ravenRed.draw(graphToBack);
 
-        if (ravenRed.isHit(pipes)) ravenRed.setDead(true);
+//        if (ravenRed.isHit(pipes)) ravenRed.setDead(true);
         if (ravenBlack.isHit(pipes)) ravenBlack.setDead(true);
 
-        if(keys[0]){
-          if(canPressQ && !ravenRed.isDead()){
-            ravenRed.move("UP");
-            canPressQ = false;
-          }
-        }
+//        if(keys[0]){
+//          if(canPressQ && !ravenRed.isDead()){
+//            ravenRed.flap();
+//            canPressQ = false;
+//          }
+//        }
         if(keys[1]){
           if(canPressP && !ravenBlack.isDead()) {
-            ravenBlack.move("UP");
+            ravenBlack.flap();
             canPressP = false;
           }
         }
 
-        ravenBlack.move("DOWN");
-        ravenRed.move("DOWN");
+        ravenBlack.move();
+//        ravenRed.move();
 
         twoDGraph.drawImage(back, null, 0, 0);
     }
