@@ -1,4 +1,8 @@
 import javax.swing.*;
+import java.util.Scanner;
+import javax.swing.JFrame;
+import java.awt.Component;
+import java.util.Scanner;
 
 public class FlappyRaven extends JFrame
 {
@@ -21,6 +25,15 @@ public class FlappyRaven extends JFrame
 
     public static void main( String args[] )
     {
-        FlappyRaven run = new FlappyRaven();
+      Scanner s = new Scanner(System.in);
+      System.out.println("Welcome to Flappy Bird!!");
+      System.out.println("Enter the name for player 1:");
+      int player1 = s.next();
+      System.out.println("Enter the name for player 1::");
+      int player2 = s.next();
+      
+      System.out.println("Starting the game...");
+
+        FlappyRaven run = new FlappyRaven(player1, player2);
     }
 }
