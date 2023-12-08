@@ -12,8 +12,8 @@ public class Pipes extends MovingThing {
     private final int SCENE_HEIGHT = 450;
     private Image topImage;
     private Image botImage;
-    public static final String TOP_PIPE_PNG = "botPipe.png";
-    public static final String BOT_PIPE_PNG = "topPipe.png";
+    public static final String TOP_PIPE_PNG = "topPipe.png";
+    public static final String BOT_PIPE_PNG = "botPipe.png";
 
     public Pipes(int x, int y) {
         super(x, y);
@@ -27,6 +27,7 @@ public class Pipes extends MovingThing {
             System.out.println(e);
         }
         setWidth(topImage.getWidth(null));
+        setHeight(SCENE_HEIGHT);
     }
 
     public Pipes(int x, int y, int cx, int cy) {
@@ -88,6 +89,10 @@ public class Pipes extends MovingThing {
     public void draw(Graphics window) {
         window.drawImage(topImage, getX(), getYCenter() - pipeGap - topImage.getHeight(null), topImage.getWidth(null), topImage.getHeight(null), null);
         window.drawImage(botImage, getX(), getYCenter() + pipeGap, botImage.getWidth(null), botImage.getHeight(null), null);
+    }
 
+    @Override
+    public boolean didCollide(MovingThing a) {
+        return super.didCollide(a) && (a.getY() <= getYCenter() - pipeGap || a.getY() >= getYCenter() + pipeGap);
     }
 }

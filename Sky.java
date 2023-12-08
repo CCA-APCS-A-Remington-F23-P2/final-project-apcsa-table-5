@@ -69,14 +69,17 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         ravenBlack.draw(graphToBack);
         ravenRed.draw(graphToBack);
 
+        if (ravenRed.isHit(pipes)) ravenRed.setDead(true);
+        if (ravenBlack.isHit(pipes)) ravenBlack.setDead(true);
+
         if(keys[0]){
-          if(canPressQ){
+          if(canPressQ && !ravenRed.isDead()){
             ravenRed.move("UP");
             canPressQ = false;
           }
         }
         if(keys[1]){
-          if(canPressP){
+          if(canPressP && !ravenBlack.isDead()) {
             ravenBlack.move("UP");
             canPressP = false;
           }
