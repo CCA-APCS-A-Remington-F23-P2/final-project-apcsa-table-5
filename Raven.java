@@ -19,6 +19,9 @@ public class Raven extends MovingThing {
     private double velocity = 0;
     private final double GRAVITY = 0.05;
 
+    private int startX;
+    private int startY;
+
     public Raven() {
         this(10, 10, 60, 60);
     }
@@ -37,6 +40,8 @@ public class Raven extends MovingThing {
         super(x, y, w, h);
         dead = false;
         imageName = img;
+        startX = x;
+        startY = y;
 
         try {
             URL url = getClass().getResource(imageName);
@@ -87,6 +92,10 @@ public class Raven extends MovingThing {
             window.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
             flashAlpha = Math.max(0, --flashAlpha);
         }
+    }
+
+    public void reset(){
+      setPos(startX,startY);
     }
 
     public String toString() {

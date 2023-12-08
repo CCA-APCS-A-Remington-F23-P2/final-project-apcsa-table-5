@@ -17,6 +17,12 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private boolean canPressQ = true;
     private boolean canPressP = true;
 
+    private boolean playing = true;
+
+    private Score redScore;
+    private Score blackScore;
+
+
     private ArrayList<Pipes> pipes;
 
     public Sky() {
@@ -27,6 +33,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
         ravenBlack = new Raven(150, 200, 60, 60, "raven1.png");
 //        ravenRed = new Raven(50, 200, 60, 60, "raven2.png");
+
+        redScore = new Score(150,50, Color.RED);
+        blackScore = new Score(450,50, Color.BLACK);
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -48,6 +57,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     }
 
     public void paint(Graphics window) {
+      if(playing){
         // set up the double buffering to make the game animation nice and smooth
         Graphics2D twoDGraph = (Graphics2D) window;
 
@@ -56,11 +66,14 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         if (back == null)
             back = (BufferedImage) (createImage(getWidth(), getHeight()));
 
+
         // create a graphics reference to the back ground image
         // we will draw all changes on the background image
         Graphics graphToBack = back.createGraphics();
 
         graphToBack.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+
+        
 
         for (Pipes pipe : pipes) {
             pipe.draw(graphToBack);
@@ -89,7 +102,14 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         ravenBlack.move();
 //        ravenRed.move();
 
+        redScore.draw(graphToBack);
+        blackScore.draw(graphToBack);
+
+        
+
         twoDGraph.drawImage(back, null, 0, 0);
+      }
+      
     }
 
     public void keyPressed(KeyEvent e) {
@@ -99,7 +119,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         if (e.getKeyCode() == KeyEvent.VK_P) {
             keys[1] = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             keys[2] = true;
         }
     }
@@ -113,8 +133,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             keys[1] = false;
             canPressP = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             keys[2] = false;
+            playing = true;
         }
     }
 

@@ -15,6 +15,9 @@ public class Pipes extends MovingThing {
     public static final String TOP_PIPE_PNG = "topPipe.png";
     public static final String BOT_PIPE_PNG = "botPipe.png";
 
+    private int startX;
+    private int startY;
+
     public Pipes(int x, int y) {
         super(x, y);
         setCenter(SCENE_WIDTH / 2, SCENE_HEIGHT / 2);
@@ -33,6 +36,8 @@ public class Pipes extends MovingThing {
     public Pipes(int x, int y, int cx, int cy) {
         super(x, y);
         setCenter(cx, cy);
+        startX = x;
+        startY = y;
         try {
             URL topUrl = getClass().getResource(TOP_PIPE_PNG);
             URL botUrl = getClass().getResource(BOT_PIPE_PNG);
@@ -94,5 +99,9 @@ public class Pipes extends MovingThing {
     @Override
     public boolean didCollide(MovingThing a) {
         return super.didCollide(a) && (a.getY() <= getYCenter() - pipeGap || a.getY() >= getYCenter() + pipeGap);
+    }
+
+    public void reset(){
+      setPos(startX,startY);
     }
 }
