@@ -74,6 +74,10 @@ public class Pipes extends MovingThing {
         pipeGap = gap;
     }
 
+    public int getPipeGap(){
+      return pipeGap;
+    }
+
     @Override
     public void move(String direction) {
         if (getX() <= -topImage.getWidth(null)) {
