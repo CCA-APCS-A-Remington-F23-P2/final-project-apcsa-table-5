@@ -64,6 +64,7 @@ public class Raven extends MovingThing {
             setX(getX() + PIPE_SPEED);
             velocity = 2;
         }
+        // Clamp bird Y between 0 and the scene height - bird height with padding
         setY(Math.max(0, Math.min(SCENE_HEIGHT - getHeight() - 20, getY() + (int) velocity)));
         velocity += GRAVITY;
     }

@@ -12,7 +12,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private Image background;
 
     private Raven ravenBlack;
-//    private Raven ravenRed;
+    private Raven ravenRed;
 
     private boolean canPressQ = true;
     private boolean canPressP = true;
@@ -32,10 +32,10 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         pipes.add(new Pipes(1350, 0));
 
         ravenBlack = new Raven(150, 200, 60, 60, "raven1.png");
-//        ravenRed = new Raven(50, 200, 60, 60, "raven2.png");
+        ravenRed = new Raven(50, 200, 60, 60, "raven2.png");
 
-        redScore = new Score(150,50, Color.RED);
-        blackScore = new Score(450,50, Color.BLACK);
+        redScore = new Score(150, 50, Color.RED);
+        blackScore = new Score(450, 50, Color.BLACK);
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -57,67 +57,65 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     }
 
     public void paint(Graphics window) {
-      if(playing){
-        // set up the double buffering to make the game animation nice and smooth
-        Graphics2D twoDGraph = (Graphics2D) window;
+        if (playing) {
+            // set up the double buffering to make the game animation nice and smooth
+            Graphics2D twoDGraph = (Graphics2D) window;
 
-        // take a snap shop of the current screen and same it as an image
-        // that is the exact same width and height as the current screen
-        if (back == null)
-            back = (BufferedImage) (createImage(getWidth(), getHeight()));
+            // take a snap shop of the current screen and same it as an image
+            // that is the exact same width and height as the current screen
+            if (back == null)
+                back = (BufferedImage) (createImage(getWidth(), getHeight()));
 
 
-        // create a graphics reference to the back ground image
-        // we will draw all changes on the background image
-        Graphics graphToBack = back.createGraphics();
+            // create a graphics reference to the back ground image
+            // we will draw all changes on the background image
+            Graphics graphToBack = back.createGraphics();
 
-        graphToBack.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+            graphToBack.drawImage(background, 0, 0, getWidth(), getHeight(), null);
 
-        
 
-        for (Pipes pipe : pipes) {
-            pipe.draw(graphToBack);
-            pipe.move("LEFT");
+            for (Pipes pipe : pipes) {
+                pipe.draw(graphToBack);
+                pipe.move("LEFT");
+            }
+
+            ravenBlack.draw(graphToBack);
+            ravenRed.draw(graphToBack);
+
+            if (ravenRed.isHit(pipes)) ravenRed.setDead(true);
+            if (ravenBlack.isHit(pipes)) ravenBlack.setDead(true);
+
+            if (keys[0]) {
+                if (canPressQ && !ravenRed.isDead()) {
+                    ravenRed.flap();
+                    canPressQ = false;
+                }
+            }
+
+
+            for (Pipes pipe : pipes) {
+                if (pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY() && pipe.getXCenter() <= ravenBlack.getX()) {
+                    blackScore.setScore(blackScore.getScore() + 1);
+                }
+            }
+
+            if (keys[1]) {
+                if (canPressP && !ravenBlack.isDead()) {
+                    ravenBlack.flap();
+                    canPressP = false;
+                }
+            }
+
+            ravenBlack.move();
+            ravenRed.move();
+
+            redScore.draw(graphToBack);
+            blackScore.draw(graphToBack);
+
+
+            twoDGraph.drawImage(back, null, 0, 0);
         }
 
-        ravenBlack.draw(graphToBack);
-//        ravenRed.draw(graphToBack);
-
-//        if (ravenRed.isHit(pipes)) ravenRed.setDead(true);
-        if (ravenBlack.isHit(pipes)) ravenBlack.setDead(true);
-
-//        if(keys[0]){
-//          if(canPressQ && !ravenRed.isDead()){
-//            ravenRed.flap();
-//            canPressQ = false;
-//          }
-//        }
-
-
-        for(Pipes pipe : pipes){
-          if(pipe.getYCenter()+pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter()-pipe.getPipeGap() < ravenBlack.getY() && pipe.getXCenter() <= ravenBlack.getX()){
-            blackScore.setScore(blackScore.getScore()+1);
-          }
-        }
-        
-        if(keys[1]){
-          if(canPressP && !ravenBlack.isDead()) {
-            ravenBlack.flap();
-            canPressP = false;
-          }
-        }
-
-        ravenBlack.move();
-//        ravenRed.move();
-
-        redScore.draw(graphToBack);
-        blackScore.draw(graphToBack);
-
-        
-
-        twoDGraph.drawImage(back, null, 0, 0);
-      }
-      
     }
 
     public void keyPressed(KeyEvent e) {
