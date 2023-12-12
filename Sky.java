@@ -22,6 +22,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private Score redScore;
     private Score blackScore;
 
+    private boolean blackInPipe = false;
+    private boolean redInPipe = false;
+
 
     private ArrayList<Pipes> pipes;
 
@@ -94,9 +97,15 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
 
             for (Pipes pipe : pipes) {
-                if (pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY() && pipe.getXCenter() <= ravenBlack.getX()) {
-                    blackScore.setScore(blackScore.getScore() + 1);
-                }
+                if((pipe.getYCenter()+pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter()-pipe.getPipeGap() < ravenBlack.getY()) 
+                  && (pipe.getXCenter() < ravenBlack.getX() && pipe.getXCenter() + 2 > ravenBlack.getX())) {
+                  blackScore.setScore(blackScore.getScore() + 1);
+                  }
+
+                if((pipe.getYCenter()+pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter()-pipe.getPipeGap() < ravenRed.getY()) 
+                  && (pipe.getXCenter() < ravenRed.getX() && pipe.getXCenter() + 2 > ravenRed.getX())) {
+                  redScore.setScore(redScore.getScore() + 1);
+                  }
             }
 
             if (keys[1]) {
