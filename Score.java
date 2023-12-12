@@ -20,10 +20,6 @@ public class Score
     score = 0;
 
   }
-
-
-
-
   //add the other set methods Hint: check the Locateable interface
 
 
