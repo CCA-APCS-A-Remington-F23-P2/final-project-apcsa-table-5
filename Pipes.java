@@ -7,7 +7,7 @@ public class Pipes extends MovingThing {
     private int xCenter;
     private int yCenter;
     private final int SPEED = -1;
-    private int pipeGap = 60;
+    private int pipeGap = 150;
     private final int SCENE_WIDTH = 600;
     private final int SCENE_HEIGHT = 450;
     private Image topImage;
@@ -21,6 +21,8 @@ public class Pipes extends MovingThing {
     public Pipes(int x, int y) {
         super(x, y);
         setCenter(SCENE_WIDTH / 2, SCENE_HEIGHT / 2);
+        startX = x;
+        startY = y;
         try {
             URL topUrl = getClass().getResource(TOP_PIPE_PNG);
             URL botUrl = getClass().getResource(BOT_PIPE_PNG);
@@ -76,6 +78,14 @@ public class Pipes extends MovingThing {
 
     public int getPipeGap(){
       return pipeGap;
+    }
+
+    public int getStartX(){
+      return startX;
+    }
+
+    public int getStartY(){
+      return startY;
     }
 
     @Override
