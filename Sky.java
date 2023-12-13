@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
+import java.awt.Font;
 
 public class Sky extends Canvas implements KeyListener, Runnable {
     private boolean[] keys;
@@ -22,8 +23,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private Score redScore;
     private Score blackScore;
 
-    private boolean blackInPipe = false;
-    private boolean redInPipe = false;
+    private int roundCount;
 
 
     private ArrayList<Pipes> pipes;
@@ -39,6 +39,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
         redScore = new Score(150, 50, Color.RED);
         blackScore = new Score(450, 50, Color.BLACK);
+
+        roundCount = 1;
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -96,6 +98,16 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             }
 
 
+        
+
+            if (keys[1]) {
+                if (canPressP && !ravenBlack.isDead()) {
+                    ravenBlack.flap();
+                    canPressP = false;
+                }
+            }
+
+            //scoring
             for (Pipes pipe : pipes) {
                 if((pipe.getYCenter()+pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter()-pipe.getPipeGap() < ravenBlack.getY()) 
                   && (pipe.getXCenter() < ravenBlack.getX() && pipe.getXCenter() + 2 > ravenBlack.getX())) {
@@ -108,12 +120,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
                   }
             }
 
-            if (keys[1]) {
-                if (canPressP && !ravenBlack.isDead()) {
-                    ravenBlack.flap();
-                    canPressP = false;
-                }
-            }
+
+            
 
             ravenBlack.move();
             ravenRed.move();
@@ -123,8 +131,53 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
 
             twoDGraph.drawImage(back, null, 0, 0);
+
+
+            if(ravenBlack.isDead() && ravenRed.isDead() && playing){
+              playing = false;
+              if(roundCount<3){
+              
+
+                window.setFont(new Font( "SansSerif", Font.PLAIN, 30 ));
+                window.setColor(Color.BLACK);
+                window.drawString("Round " + roundCount, 250, 150);
+                window.setFont(new Font( "SansSerif", Font.PLAIN, 20 ));
+                window.drawString("Press SPACE to start", 200, 200);
+              }
+              else{
+                window.setFont(new Font( "SansSerif", Font.PLAIN, 30 ));
+                window.setColor(Color.BLACK);
+                window.drawString("Game Over", 250, 150);
+                window.setFont(new Font( "SansSerif", Font.PLAIN, 20 ));
+                window.drawString("Press SPACE to restart", 200, 200);
+              }
+            }
         }
 
+    }
+
+
+    public void resetAll(){
+      ravenBlack.reset();
+      ravenRed.reset();
+      ravenBlack.setDead(false);
+      ravenRed.setDead(false);
+      for(Pipes pipe : pipes){
+        pipe.reset();
+      }
+    }
+
+    public void hardReset(){
+      ravenBlack.reset();
+      ravenRed.reset();
+      ravenBlack.setDead(false);
+      ravenRed.setDead(false);
+      for(Pipes pipe : pipes){
+        pipe.reset();
+      }
+      blackScore.setScore(0);
+      redScore.setScore(0);
+      roundCount = 1;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -151,6 +204,13 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             keys[2] = false;
             playing = true;
+            if(roundCount == 3){
+              hardReset();
+            }
+            else{
+              resetAll();
+            }
+            roundCount++;
         }
     }
 
