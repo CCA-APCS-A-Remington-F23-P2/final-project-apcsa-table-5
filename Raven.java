@@ -14,6 +14,7 @@ public class Raven extends MovingThing {
     private final int PIPE_SPEED = -1;
     private boolean dead;
     private int flashAlpha = 255;
+    private String playerName;
 
     // Physics
     private double velocity = 0;
@@ -36,12 +37,13 @@ public class Raven extends MovingThing {
     }
 
     // all ctors call this ctor
-    public Raven(int x, int y, int w, int h, String img) {
+    public Raven(int x, int y, int w, int h, String img, String playerName) {
         super(x, y, w, h);
         dead = false;
         imageName = img;
         startX = x;
         startY = y;
+        this.playerName = playerName;
 
         try {
             URL url = getClass().getResource(imageName);
@@ -49,6 +51,10 @@ public class Raven extends MovingThing {
         } catch (Exception e) {
             //feel free to do something here
         }
+    }
+
+    public String getName() {
+      return playerName;
     }
 
     public boolean isDead() {
@@ -85,6 +91,7 @@ public class Raven extends MovingThing {
         }
         return hit;
     }
+
 
     public void draw(Graphics window) {
         window.drawImage(image, getX(), getY(), getWidth(), getHeight(), null);

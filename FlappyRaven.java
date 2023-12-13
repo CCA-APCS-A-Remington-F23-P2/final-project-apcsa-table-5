@@ -35,7 +35,7 @@ public class FlappyRaven extends JFrame {
           
         // }
 
-        Sky theGame = new Sky();
+        Sky theGame = new Sky(player1Name, player2Name);
         theGame.setFocusable(true);
 
         getContentPane().add(theGame);
@@ -73,7 +73,7 @@ public class FlappyRaven extends JFrame {
         System.out.println("Welcome to Flappy Bird!!");
         System.out.println("Enter the name for player 1:");
         String player1 = s.next();
-        System.out.println("Enter the name for player 1::");
+        System.out.println("Enter the name for player 2:");
         String player2 = s.next();
         s.close();
 

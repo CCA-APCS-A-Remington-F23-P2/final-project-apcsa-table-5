@@ -4,7 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.io.File;
+import java.nio.file.*;
 import java.util.ArrayList;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Sky extends Canvas implements KeyListener, Runnable {
     private boolean[] keys;
@@ -13,6 +17,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
     private Raven ravenBlack;
     private Raven ravenRed;
+  
 
     private boolean canPressQ = true;
     private boolean canPressP = true;
@@ -25,14 +30,14 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
     private ArrayList<Pipes> pipes;
 
-    public Sky() {
+    public Sky(String player1Name, String player2Name) {
         keys = new boolean[3];
         pipes = new ArrayList<>();
         pipes.add(new Pipes(1000, 0));
         pipes.add(new Pipes(1350, 0));
 
-        ravenBlack = new Raven(150, 200, 60, 60, "raven1.png");
-        ravenRed = new Raven(50, 200, 60, 60, "raven2.png");
+        ravenBlack = new Raven(150, 200, 60, 60, "raven1.png", player1Name);
+        ravenRed = new Raven(50, 200, 60, 60, "raven2.png", player2Name);
 
         redScore = new Score(150, 50, Color.RED);
         blackScore = new Score(450, 50, Color.BLACK);
@@ -82,8 +87,14 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             ravenBlack.draw(graphToBack);
             ravenRed.draw(graphToBack);
 
-            if (ravenRed.isHit(pipes)) ravenRed.setDead(true);
-            if (ravenBlack.isHit(pipes)) ravenBlack.setDead(true);
+            if (ravenRed.isHit(pipes)) {
+              ravenRed.setDead(true);
+              updateDatabase(ravenRed.getName(), redScore);
+            }
+            if (ravenBlack.isHit(pipes)){
+              ravenBlack.setDead(true);
+              updateDatabase(ravenBlack.getName(), blackScore);
+            } 
 
             if (keys[0]) {
                 if (canPressQ && !ravenRed.isDead()) {
@@ -115,6 +126,36 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
             twoDGraph.drawImage(back, null, 0, 0);
         }
+
+    }
+
+    public void updateDatabase(String playerName, Score score) {
+      // Scanner scanner = new Scanner("Database.txt");
+      //   while(scanner.hasNextLine()) {
+      //     if(scanner.nextLine().contains(playerName)) {
+      //       scanner.close();
+      //         return true;
+      //       }
+      //       scanner.close();
+      //       return false;
+      //     }
+      // scanner.close();
+      try {
+        Path FILE_PATH = Paths.get("Database.txt");
+        ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
+
+        for (int i = 0; i < fileContent.size(); i++) {
+            if (fileContent.get(i).contains(playerName)) {
+                fileContent.set(i, playerName + " " + score.getScore());
+                break;
+            }
+        }
+
+        Files.write(FILE_PATH, fileContent);
+      } catch (Exception e) {
+        System.out.println("Error in writing");
+      }
+      
 
     }
 
