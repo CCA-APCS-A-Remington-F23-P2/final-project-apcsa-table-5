@@ -139,22 +139,16 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     }
 
     public void updateDatabase(String playerName, Score score) {
-      // Scanner scanner = new Scanner("Database.txt");
-      //   while(scanner.hasNextLine()) {
-      //     if(scanner.nextLine().contains(playerName)) {
-      //       scanner.close();
-      //         return true;
-      //       }
-      //       scanner.close();
-      //       return false;
-      //     }
-      // scanner.close();
+
       try {
         Path FILE_PATH = Paths.get("Database.txt");
         ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
 
         for (int i = 0; i < fileContent.size(); i++) {
             if (fileContent.get(i).contains(playerName)) {
+                String str = fileContent.get(i);
+                // String playerScoreStr = str.replaceAll("[^0-9]", "");
+                // int playerScore = Integer.parseInt(playerScoreStr);
                 fileContent.set(i, playerName + " " + score.getScore());
                 break;
             }
