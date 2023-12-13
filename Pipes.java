@@ -7,7 +7,7 @@ public class Pipes extends MovingThing {
     private int xCenter;
     private int yCenter;
     private final int SPEED = -1;
-    private int pipeGap = 150;
+    private int pipeGap = 60;
     private final int SCENE_WIDTH = 600;
     private final int SCENE_HEIGHT = 450;
     private Image topImage;
