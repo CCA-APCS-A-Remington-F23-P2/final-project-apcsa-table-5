@@ -45,8 +45,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         pipes.add(new Pipes(1000, 0));
         pipes.add(new Pipes(1350, 0));
 
-        ravenBlack = new Raven(150, 20, 60, 60, "raven1.png", player1Name);
-        ravenRed = new Raven(50, 20, 60, 60, "raven2.png", player2Name);
+        ravenBlack = new Raven(150, 200, 60, 60, "raven1.png", player1Name);
+        ravenRed = new Raven(50, 200, 60, 60, "raven2.png", player2Name);
 
         redScore = new Score(150, 50, Color.RED);
         blackScore = new Score(450, 50, Color.BLACK);
@@ -176,6 +176,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         if (ravenBlack.isDead() && ravenRed.isDead() && (playing || paused)) {
             playing = false;
             paused = true;
+            blackInPipe = false;
+            redInPipe = false;
             if (roundCount <= 3) {
 
 
@@ -261,7 +263,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             keys[1] = false;
             canPressP = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE && paused) {
             keys[2] = false;
             playing = true;
             paused = false;
