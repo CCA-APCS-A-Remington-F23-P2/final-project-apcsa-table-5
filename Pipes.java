@@ -72,6 +72,9 @@ public class Pipes extends MovingThing {
         yCenter = y;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
     public void setSpeed(int speed) {
         this.speed = speed;
     }
@@ -91,9 +94,9 @@ public class Pipes extends MovingThing {
     @Override
     public void move(String direction) {
         if (getX() <= -topImage.getWidth(null)) {
-            int maxYCenter = SCENE_HEIGHT - 120;
-            int minYCenter = 120;
-            int minGap = 60;
+            int maxYCenter = SCENE_HEIGHT - 150;
+            int minYCenter = 150;
+            int minGap = 50;
             int maxGap = 100;
             setX(SCENE_WIDTH);
             setYCenter((int) ((Math.random() * (maxYCenter - minYCenter)) + minYCenter));
@@ -117,5 +120,6 @@ public class Pipes extends MovingThing {
 
     public void reset(){
       setPos(startX,startY);
+      setSpeed(-1);
     }
 }
