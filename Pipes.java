@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 public class Pipes extends MovingThing {
     private int xCenter;
     private int yCenter;
-    private final int SPEED = -1;
+    private int speed = -1;
     private int pipeGap = 60;
     private final int SCENE_WIDTH = 600;
     private final int SCENE_HEIGHT = 450;
@@ -72,6 +72,10 @@ public class Pipes extends MovingThing {
         yCenter = y;
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     public void setPipeGap(int gap) {
         pipeGap = gap;
     }
@@ -80,12 +84,8 @@ public class Pipes extends MovingThing {
       return pipeGap;
     }
 
-    public int getStartX(){
-      return startX;
-    }
-
-    public int getStartY(){
-      return startY;
+    public int getWidth() {
+        return topImage.getWidth(null);
     }
 
     @Override
@@ -93,14 +93,14 @@ public class Pipes extends MovingThing {
         if (getX() <= -topImage.getWidth(null)) {
             int maxYCenter = SCENE_HEIGHT - 120;
             int minYCenter = 120;
-            int minGap = 40;
+            int minGap = 60;
             int maxGap = 100;
             setX(SCENE_WIDTH);
             setYCenter((int) ((Math.random() * (maxYCenter - minYCenter)) + minYCenter));
             setPipeGap((int) ((Math.random() * (maxGap - minGap)) + minGap));
         }
 
-        setX(getX() + SPEED);
+        setX(getX() + speed);
         xCenter = getX();
     }
 

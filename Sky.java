@@ -21,7 +21,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
     private Raven ravenBlack;
     private Raven ravenRed;
-  
+
 
     private boolean canPressQ = true;
     private boolean canPressP = true;
@@ -33,7 +33,6 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private Score blackScore;
 
     private int roundCount;
-
 
     private ArrayList<Pipes> pipes;
 
@@ -72,162 +71,158 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
     public void paint(Graphics window) {
         if (playing) {
-          if (keys[0]) {
-              if (canPressQ && !ravenRed.isDead()) {
-                  ravenRed.flap();
-                  canPressQ = false;
-              }
-          }
+            if (keys[0]) {
+                if (canPressQ && !ravenRed.isDead()) {
+                    ravenRed.flap();
+                    canPressQ = false;
+                }
+            }
 
+            if (keys[1]) {
+                if (canPressP && !ravenBlack.isDead()) {
+                    ravenBlack.flap();
+                    canPressP = false;
+                }
+            }
 
-
-
-          if (keys[1]) {
-              if (canPressP && !ravenBlack.isDead()) {
-                  ravenBlack.flap();
-                  canPressP = false;
-              }
-          }
-
-          //scoring
-          for (Pipes pipe : pipes) {
-              if((pipe.getYCenter()+pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter()-pipe.getPipeGap() < ravenBlack.getY()) 
-                && (pipe.getXCenter() < ravenBlack.getX() && pipe.getXCenter() + 2 > ravenBlack.getX())) {
-                blackScore.setScore(blackScore.getScore() + 1);
+            //scoring
+            for (Pipes pipe : pipes) {
+                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY())
+                        && (pipe.getXCenter() < ravenBlack.getX() && pipe.getXCenter() + 2 > ravenBlack.getX())) {
+                    blackScore.setScore(blackScore.getScore() + 1);
                 }
 
-              if((pipe.getYCenter()+pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter()-pipe.getPipeGap() < ravenRed.getY()) 
-                && (pipe.getXCenter() < ravenRed.getX() && pipe.getXCenter() + 2 > ravenRed.getX())) {
-                redScore.setScore(redScore.getScore() + 1);
+                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenRed.getY())
+                        && (pipe.getXCenter() < ravenRed.getX() && pipe.getXCenter() + 2 > ravenRed.getX())) {
+                    redScore.setScore(redScore.getScore() + 1);
                 }
-          }
-            
+            }
+
+            if (blackScore.getScore() != 0 && blackScore.getScore() % 10 == 0) {
+                for (Pipes pipe : pipes) {
+                    pipe.setSpeed(-(blackScore.getScore() + 10) / 10);
+                }
+            }
+
+            if (redScore.getScore() != 0 && redScore.getScore() % 10 == 0) {
+                for (Pipes pipe : pipes) {
+                    pipe.setSpeed(-(redScore.getScore() + 10) / 10);
+                }
+            }
         }
 
 
-      
-      // set up the double buffering to make the game animation nice and smooth
-      Graphics2D twoDGraph = (Graphics2D) window;
+        // set up the double buffering to make the game animation nice and smooth
+        Graphics2D twoDGraph = (Graphics2D) window;
 
-      // take a snap shop of the current screen and same it as an image
-      // that is the exact same width and height as the current screen
-      if (back == null)
-          back = (BufferedImage) (createImage(getWidth(), getHeight()));
-
-
-      // create a graphics reference to the back ground image
-      // we will draw all changes on the background image
-      Graphics graphToBack = back.createGraphics();
-
-      graphToBack.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+        // take a snap shop of the current screen and same it as an image
+        // that is the exact same width and height as the current screen
+        if (back == null)
+            back = (BufferedImage) (createImage(getWidth(), getHeight()));
 
 
-      for (Pipes pipe : pipes) {
-          pipe.draw(graphToBack);
-          pipe.move("LEFT");
-      }
+        // create a graphics reference to the back ground image
+        // we will draw all changes on the background image
+        Graphics graphToBack = back.createGraphics();
 
-      ravenBlack.draw(graphToBack);
-      ravenRed.draw(graphToBack);
-
-      if (ravenRed.isHit(pipes)) {
-        ravenRed.setDead(true);
-        updateDatabase(ravenRed.getName(), redScore);
-      }
-      if (ravenBlack.isHit(pipes)){
-        ravenBlack.setDead(true);
-        updateDatabase(ravenBlack.getName(), blackScore);
-      } 
-
-      
+        graphToBack.drawImage(background, 0, 0, getWidth(), getHeight(), null);
 
 
-
-
-      ravenBlack.move();
-      ravenRed.move();
-
-      redScore.draw(graphToBack);
-      blackScore.draw(graphToBack);
-
-      if(ravenBlack.isDead() && ravenRed.isDead() && (playing || paused)){
-        playing = false;
-        paused = true;
-        if(roundCount<=3){
-
-
-
-          window.setFont(new Font( "SansSerif", Font.PLAIN, 30 ));
-          window.setColor(Color.BLACK);
-          window.drawString("Round " + roundCount, 250, 150);
-          window.setFont(new Font( "SansSerif", Font.PLAIN, 20 ));
-          window.drawString("Press SPACE to start", 210, 200);
+        for (Pipes pipe : pipes) {
+            pipe.draw(graphToBack);
+            pipe.move("LEFT");
         }
-        else{
-          window.setFont(new Font( "SansSerif", Font.PLAIN, 30 ));
-          window.setColor(Color.BLACK);
-          window.drawString("Game Over", 230, 150);
-          window.setFont(new Font( "SansSerif", Font.PLAIN, 20 ));
-          window.drawString("Press SPACE to restart", 200, 200);
+
+        ravenBlack.draw(graphToBack);
+        ravenRed.draw(graphToBack);
+
+        if (ravenRed.isHit(pipes)) {
+            ravenRed.setDead(true);
+            updateDatabase(ravenRed.getName(), redScore);
         }
-      }
+        if (ravenBlack.isHit(pipes)) {
+            ravenBlack.setDead(true);
+            updateDatabase(ravenBlack.getName(), blackScore);
+        }
 
 
-      twoDGraph.drawImage(back, null, 0, 0);
+        ravenBlack.move();
+        ravenRed.move();
 
-      
+        redScore.draw(graphToBack);
+        blackScore.draw(graphToBack);
+
+        if (ravenBlack.isDead() && ravenRed.isDead() && (playing || paused)) {
+            playing = false;
+            paused = true;
+            if (roundCount <= 3) {
 
 
-      
+                window.setFont(new Font("SansSerif", Font.PLAIN, 30));
+                window.setColor(Color.BLACK);
+                window.drawString("Round " + roundCount, 250, 150);
+                window.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                window.drawString("Press SPACE to start", 210, 200);
+            } else {
+                window.setFont(new Font("SansSerif", Font.PLAIN, 30));
+                window.setColor(Color.BLACK);
+                window.drawString("Game Over", 230, 150);
+                window.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                window.drawString("Press SPACE to restart", 200, 200);
+            }
+        }
+
+
+        twoDGraph.drawImage(back, null, 0, 0);
+
 
     }
 
 
-
-    public void resetAll(){
-      ravenBlack.reset();
-      ravenRed.reset();
-      ravenBlack.setDead(false);
-      ravenRed.setDead(false);
-      for(Pipes pipe : pipes){
-        pipe.reset();
-      }
+    public void resetAll() {
+        ravenBlack.reset();
+        ravenRed.reset();
+        ravenBlack.setDead(false);
+        ravenRed.setDead(false);
+        for (Pipes pipe : pipes) {
+            pipe.reset();
+        }
     }
 
-    public void hardReset(){
-      ravenBlack.reset();
-      ravenRed.reset();
-      ravenBlack.setDead(false);
-      ravenRed.setDead(false);
-      for(Pipes pipe : pipes){
-        pipe.reset();
-      }
-      blackScore.setScore(0);
-      redScore.setScore(0);
-      roundCount = 2;
+    public void hardReset() {
+        ravenBlack.reset();
+        ravenRed.reset();
+        ravenBlack.setDead(false);
+        ravenRed.setDead(false);
+        for (Pipes pipe : pipes) {
+            pipe.reset();
+        }
+        blackScore.setScore(0);
+        redScore.setScore(0);
+        roundCount = 2;
     }
 
     public void updateDatabase(String playerName, Score score) {
 
-      try {
-        Path FILE_PATH = Paths.get("Database.txt");
-        ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
+        try {
+            Path FILE_PATH = Paths.get("Database.txt");
+            ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
 
-        for (int i = 0; i < fileContent.size(); i++) {
-            if (fileContent.get(i).contains(playerName)) {
-                String str = fileContent.get(i);
-                // String playerScoreStr = str.replaceAll("[^0-9]", "");
-                // int playerScore = Integer.parseInt(playerScoreStr);
-                fileContent.set(i, playerName + " " + score.getScore());
-                break;
+            for (int i = 0; i < fileContent.size(); i++) {
+                if (fileContent.get(i).contains(playerName)) {
+                    String str = fileContent.get(i);
+                    // String playerScoreStr = str.replaceAll("[^0-9]", "");
+                    // int playerScore = Integer.parseInt(playerScoreStr);
+                    fileContent.set(i, playerName + " " + score.getScore());
+                    break;
+                }
             }
+
+            Files.write(FILE_PATH, fileContent);
+        } catch (Exception e) {
+            System.out.println("Error in writing");
         }
 
-        Files.write(FILE_PATH, fileContent);
-      } catch (Exception e) {
-        System.out.println("Error in writing");
-      }
-      
 
     }
 
@@ -256,11 +251,10 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             keys[2] = false;
             playing = true;
             paused = false;
-            if(roundCount > 3){
-              hardReset();
-            }
-            else{
-              resetAll();
+            if (roundCount > 3) {
+                hardReset();
+            } else {
+                resetAll();
             }
             roundCount++;
         }
