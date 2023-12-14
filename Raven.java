@@ -1,4 +1,3 @@
-import java.io.File;
 import java.net.URL;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,7 +10,7 @@ public class Raven extends MovingThing {
     private String imageName;
     private final int SCENE_WIDTH = 600;
     private final int SCENE_HEIGHT = 450;
-    private final int PIPE_SPEED = -1;
+    private int pipeSpeed = -1;
     private boolean dead;
     private int flashAlpha = 255;
     private String playerName;
@@ -53,6 +52,14 @@ public class Raven extends MovingThing {
         }
     }
 
+    public int getPipeSpeed() {
+        return pipeSpeed;
+    }
+
+    public void setPipeSpeed(int pipeSpeed) {
+        this.pipeSpeed = pipeSpeed;
+    }
+
     public String getName() {
       return playerName;
     }
@@ -67,7 +74,7 @@ public class Raven extends MovingThing {
 
     public void move() {
         if (isDead()) {
-            setX(getX() + PIPE_SPEED);
+            setX(getX() + pipeSpeed);
             velocity = 2;
         }
         // Clamp bird Y between 0 and the scene height - bird height with padding
@@ -106,6 +113,7 @@ public class Raven extends MovingThing {
 
     public void reset(){
       setPos(startX,startY);
+      setPipeSpeed(-1);
     }
 
     public String toString() {

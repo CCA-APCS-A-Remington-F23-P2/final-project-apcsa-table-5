@@ -102,12 +102,16 @@ public class Sky extends Canvas implements KeyListener, Runnable {
                 for (Pipes pipe : pipes) {
                     pipe.setSpeed(-(blackScore.getScore() + 10) / 10);
                 }
+                ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
+                ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
             }
 
             if (redScore.getScore() != 0 && redScore.getScore() % 10 == 0) {
                 for (Pipes pipe : pipes) {
                     pipe.setSpeed(-(redScore.getScore() + 10) / 10);
                 }
+                ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
+                ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
             }
         }
 
@@ -172,10 +176,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             }
         }
 
-
         twoDGraph.drawImage(back, null, 0, 0);
-
-
     }
 
 
