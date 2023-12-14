@@ -11,10 +11,10 @@ public class FlappyRaven extends JFrame {
     private static final int HEIGHT = 450;
     private String p1;
     private String p2;
-    private String db = "Database.txt";
+    private String db;
 
     public FlappyRaven(String player1Name, String player2Name, String db) {
-        super("FLAPPYRAVEN");
+        super("Flappy Raven");
         setSize(WIDTH, HEIGHT);
 
         p1 = player1Name;
@@ -70,7 +70,7 @@ public class FlappyRaven extends JFrame {
 
     public static void main(String[] args, String db) {
         Scanner s = new Scanner(System.in);
-        System.out.println("Welcome to Flappy Bird!!");
+        System.out.println("Welcome to Flappy Raven!");
         System.out.println("Enter the name for player 1:");
         String player1 = s.next();
         System.out.println("Enter the name for player 2:");
