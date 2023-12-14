@@ -32,6 +32,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private Score redScore;
     private Score blackScore;
 
+    private boolean blackInPipe = false;
+    private boolean redInPipe = false;
+
     private int roundCount;
 
     private ArrayList<Pipes> pipes;
@@ -42,8 +45,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         pipes.add(new Pipes(1000, 0));
         pipes.add(new Pipes(1350, 0));
 
-        ravenBlack = new Raven(150, 200, 60, 60, "raven1.png", player1Name);
-        ravenRed = new Raven(50, 200, 60, 60, "raven2.png", player2Name);
+        ravenBlack = new Raven(150, 20, 60, 60, "raven1.png", player1Name);
+        ravenRed = new Raven(50, 20, 60, 60, "raven2.png", player2Name);
 
         redScore = new Score(150, 50, Color.RED);
         blackScore = new Score(450, 50, Color.BLACK);
@@ -87,17 +90,31 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
             //scoring
             for (Pipes pipe : pipes) {
-                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY())
-                        && (pipe.getXCenter() < ravenBlack.getX() && pipe.getXCenter() + 2 > ravenBlack.getX())) {
-                    blackScore.setScore(blackScore.getScore() + 1);
+                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY())) {
+                  if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenBlack.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenBlack.getX()){
+                    blackInPipe = true;
+                  }
                 }
 
-                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenRed.getY())
-                        && (pipe.getXCenter() < ravenRed.getX() && pipe.getXCenter() + 2 > ravenRed.getX())) {
-                    redScore.setScore(redScore.getScore() + 1);
+                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenRed.getY())) {
+                     if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenRed.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenRed.getX()) {
+                    redInPipe = true;
+                  }
                 }
+
+              if(blackInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenBlack.getX()){
+                blackInPipe = false;
+                blackScore.setScore(blackScore.getScore() + 1);
+              }
+              if(redInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenRed.getX()){
+                redInPipe = false;
+                redScore.setScore(redScore.getScore() + 1);
+              }
             }
 
+          
+
+          //speed code
             if (blackScore.getScore() != 0 && blackScore.getScore() % 10 == 0) {
                 for (Pipes pipe : pipes) {
                     pipe.setSpeed(-(blackScore.getScore() + 10) / 10);
@@ -183,8 +200,6 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     public void resetAll() {
         ravenBlack.reset();
         ravenRed.reset();
-        ravenBlack.setDead(false);
-        ravenRed.setDead(false);
         for (Pipes pipe : pipes) {
             pipe.reset();
         }
@@ -193,8 +208,6 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     public void hardReset() {
         ravenBlack.reset();
         ravenRed.reset();
-        ravenBlack.setDead(false);
-        ravenRed.setDead(false);
         for (Pipes pipe : pipes) {
             pipe.reset();
         }

@@ -113,7 +113,11 @@ public class Raven extends MovingThing {
 
     public void reset(){
       setPos(startX,startY);
+
+      setDead(false);
+
       setPipeSpeed(-1);
+
     }
 
     public String toString() {
