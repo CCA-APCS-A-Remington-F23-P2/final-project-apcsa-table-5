@@ -91,16 +91,6 @@ public class Pipes extends MovingThing {
         return topImage.getWidth(null);
     }
 
-    // Gap Methods
-    public boolean inPipeGap(Raven raven) {
-      if (getYCenter() + getPipeGap() > raven.getY() && getYCenter() - getPipeGap() < raven.getY()){
-          if(getXCenter()-(getWidth()/2) < raven.getX() && getXCenter()+(getWidth()/2) > raven.getX()){
-            return true;
-          }
-      }
-      return false;
-    }
-
     @Override
     public void move(String direction) {
         if (getX() <= -topImage.getWidth(null)) {
