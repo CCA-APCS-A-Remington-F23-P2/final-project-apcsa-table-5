@@ -74,62 +74,54 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
     public void paint(Graphics window) {
         if (playing) {
-            if (keys[0]) {
-                if (canPressQ && !ravenRed.isDead()) {
-                    ravenRed.flap();
-                    canPressQ = false;
-                }
-            }
-
-            if (keys[1]) {
-                if (canPressP && !ravenBlack.isDead()) {
-                    ravenBlack.flap();
-                    canPressP = false;
-                }
-            }
-
-            //scoring
-            for (Pipes pipe : pipes) {
-                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY())) {
-                  if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenBlack.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenBlack.getX()){
-                    blackInPipe = true;
-                  }
-                }
-
-                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenRed.getY())) {
-                     if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenRed.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenRed.getX()) {
-                    redInPipe = true;
-                  }
-                }
-
-              if(blackInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenBlack.getX()){
-                blackInPipe = false;
-                blackScore.setScore(blackScore.getScore() + 1);
+          if (keys[0]) {
+              if (canPressQ && !ravenRed.isDead()) {
+                  ravenRed.flap();
+                  canPressQ = false;
               }
-              if(redInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenRed.getX()){
-                redInPipe = false;
-                redScore.setScore(redScore.getScore() + 1);
+          }
+
+          if (keys[1]) {
+              if (canPressP && !ravenBlack.isDead()) {
+                  ravenBlack.flap();
+                  canPressP = false;
               }
-            }
+          }
 
-          
+          //scoring
+          for (Pipes pipe : pipes) {
+            blackInPipe = pipe.inPipeGap(ravenBlack);
 
-          //speed code
-            if (blackScore.getScore() != 0 && blackScore.getScore() % 10 == 0) {
-                for (Pipes pipe : pipes) {
-                    pipe.setSpeed(-(blackScore.getScore() + 10) / 10);
-                }
-                ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
-                ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
-            }
+            redInPipe = pipe.inPipeGap(ravenRed);
 
-            if (redScore.getScore() != 0 && redScore.getScore() % 10 == 0) {
-                for (Pipes pipe : pipes) {
-                    pipe.setSpeed(-(redScore.getScore() + 10) / 10);
-                }
-                ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
-                ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
+            if(blackInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenBlack.getX()){
+              blackInPipe = false;
+              blackScore.setScore(blackScore.getScore() + 1);
             }
+            if(redInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenRed.getX()){
+              redInPipe = false;
+              redScore.setScore(redScore.getScore() + 1);
+            }
+          }
+
+        
+
+        //speed code
+          if (blackScore.getScore() != 0 && blackScore.getScore() % 10 == 0) {
+              for (Pipes pipe : pipes) {
+                  pipe.setSpeed(-(blackScore.getScore() + 10) / 10);
+              }
+              ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
+              ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
+          }
+
+          if (redScore.getScore() != 0 && redScore.getScore() % 10 == 0) {
+              for (Pipes pipe : pipes) {
+                  pipe.setSpeed(-(redScore.getScore() + 10) / 10);
+              }
+              ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
+              ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
+          }
         }
 
 
