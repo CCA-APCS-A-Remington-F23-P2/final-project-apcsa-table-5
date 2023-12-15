@@ -171,8 +171,6 @@ public class Sky extends Canvas implements KeyListener, Runnable {
                 window.setFont(new Font("SansSerif", Font.PLAIN, 20));
                 window.drawString("Press SPACE to start", 210, 200);
             } else {
-                updateDatabase(ravenBlack.getName(), blackScore);
-                updateDatabase(ravenRed.getName(), redScore);
                 window.setFont(new Font("SansSerif", Font.PLAIN, 30));
                 window.setColor(Color.BLACK);
                 window.drawString("Game Over", 230, 150);
@@ -194,6 +192,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     }
 
     public void hardReset() {
+        updateDatabase(ravenBlack.getName(), blackScore);
+        updateDatabase(ravenRed.getName(), redScore);
         ravenBlack.reset();
         ravenRed.reset();
         for (Pipes pipe : pipes) {
@@ -213,10 +213,12 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             for (int i = 0; i < fileContent.size(); i++) {
                 if (fileContent.get(i).contains(playerName)) {
                     String playerScoreStr = fileContent.get(i+1);
+                  
                     int playerScore = Integer.parseInt(playerScoreStr);
-                    playerScore = playerScore + score.getScore();
-                    fileContent.set(i+1, ""+playerScore);
-                    break;
+                    if(playerScore < score.getScore()) {
+                      fileContent.set(i+1, ""+score.getScore);
+                      break;
+                    }
                 }
             }
 
