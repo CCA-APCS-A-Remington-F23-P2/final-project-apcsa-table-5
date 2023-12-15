@@ -29,14 +29,6 @@ public class FlappyRaven extends JFrame {
         if (!exists(p2)) {
             newPlayer(p2);
         }
-        //add code to do stuff if they already exist?
-        // if (exists(p1)) {
-          
-        // }
-        // if (exists(p2)) {
-          
-        // }
-
         Sky theGame = new Sky(player1Name, player2Name);
         theGame.setFocusable(true);
 
@@ -81,9 +73,9 @@ public class FlappyRaven extends JFrame {
     public static void main(String[] args, String db) {
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome to Flappy Raven!");
-        System.out.println("Enter the name for player 1:");
+        System.out.println("Enter the name for player 1 (BLACK, P to jump):");
         String player1 = s.next();
-        System.out.println("Enter the name for player 2:");
+        System.out.println("Enter the name for player 2 (RED, Q to jump):");
         String player2 = s.next();
         s.close();
 
