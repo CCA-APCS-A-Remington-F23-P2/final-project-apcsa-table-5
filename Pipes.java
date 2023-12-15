@@ -96,8 +96,8 @@ public class Pipes extends MovingThing {
         if (getX() <= -topImage.getWidth(null)) {
             int maxYCenter = SCENE_HEIGHT - 150;
             int minYCenter = 150;
-            int minGap = 50;
-            int maxGap = 100;
+            int minGap = 55;
+            int maxGap = 105;
             setX(SCENE_WIDTH);
             setYCenter((int) ((Math.random() * (maxYCenter - minYCenter)) + minYCenter));
             setPipeGap((int) ((Math.random() * (maxGap - minGap)) + minGap));
@@ -115,7 +115,8 @@ public class Pipes extends MovingThing {
 
     @Override
     public boolean didCollide(MovingThing a) {
-        return super.didCollide(a) && (a.getY() <= getYCenter() - pipeGap || a.getY() >= getYCenter() + pipeGap);
+        int pipeClipThreshold = 20;
+        return super.didCollide(a) && (a.getY() <= getYCenter() - pipeGap - pipeClipThreshold || a.getY() + a.getHeight() >= getYCenter() + pipeGap + pipeClipThreshold);
     }
 
     public void reset(){
