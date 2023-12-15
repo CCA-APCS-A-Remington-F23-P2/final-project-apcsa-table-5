@@ -3,7 +3,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class FlappyRaven extends JFrame {
 
@@ -45,23 +46,31 @@ public class FlappyRaven extends JFrame {
 
     //helpers
     public boolean exists(String playerName) {
-      Scanner scanner = new Scanner(db);
-        while(scanner.hasNextLine()) {
-          if(scanner.nextLine().contains(playerName)) {
-            scanner.close();
-              return true;
-            }
-            scanner.close();
-            return false;
+      BufferedReader reader;
+
+      try {
+        reader = new BufferedReader(new FileReader("Database.txt"));
+        String line = reader.readLine();
+
+        while (line != null) {
+          if(line.equals(playerName)){
+            return true;
           }
-      scanner.close();
+          // read next line
+          line = reader.readLine() ;
+        }
+
+        reader.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
       return false;
     }
 
     private void newPlayer(String playerName) {
         try {
           FileWriter filewriter = new FileWriter(db, true);
-          filewriter.write(playerName + " " + 0 + "\n");
+          filewriter.write(playerName + "\n" + 0 + "\n");
           filewriter.close();
         } catch (IOException e) {
           System.out.println("An error occurred.");
