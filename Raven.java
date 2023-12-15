@@ -61,7 +61,7 @@ public class Raven extends MovingThing {
     }
 
     public String getName() {
-      return playerName;
+        return playerName;
     }
 
     public boolean isDead() {
@@ -81,7 +81,11 @@ public class Raven extends MovingThing {
         setY(Math.max(0, Math.min(SCENE_HEIGHT - getHeight() - 20, getY() + Math.round((float) velocity))));
 
         // Make sure the bird doesn't get stuck during movement
-        velocity += GRAVITY;
+        if (getY() == SCENE_HEIGHT - getHeight()) {
+            velocity = 0;
+        } else {
+            velocity += GRAVITY;
+        }
     }
 
     @Override
@@ -105,19 +109,17 @@ public class Raven extends MovingThing {
     public void draw(Graphics window) {
         window.drawImage(image, getX(), getY(), getWidth(), getHeight(), null);
         if (isDead()) {
-            window.setColor(new Color(255,255,255, flashAlpha));
+            window.setColor(new Color(255, 255, 255, flashAlpha));
             window.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
             flashAlpha = Math.max(0, --flashAlpha);
         }
     }
 
-    public void reset(){
-      setPos(startX,startY);
-
-      setDead(false);
-
-      setPipeSpeed(-1);
-
+    public void reset() {
+        setPos(startX, startY);
+        setDead(false);
+        setPipeSpeed(-1);
+        flashAlpha = 255;
     }
 
     public String toString() {
