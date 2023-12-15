@@ -93,10 +93,10 @@ public class Pipes extends MovingThing {
 
     // Gap Methods
     public boolean inPipeGap(Raven raven) {
-      if ( (getYCenter() + getPipeGap() > raven.getY() && getYCenter() - getPipeGap() < raven.getY())
-        &&
-      (getXCenter()-(getWidth()/2) < raven.getX() && getXCenter()+(getWidth()/2) > raven.getX())){
-        return true;
+      if (getYCenter() + getPipeGap() > raven.getY() && getYCenter() - getPipeGap() < raven.getY()){
+          if(getXCenter()-(getWidth()/2) < raven.getX() && getXCenter()+(getWidth()/2) > raven.getX()){
+            return true;
+          }
       }
       return false;
     }
