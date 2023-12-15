@@ -151,11 +151,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
         if (ravenRed.isHit(pipes)) {
             ravenRed.setDead(true);
-            updateDatabase(ravenRed.getName(), redScore);
         }
         if (ravenBlack.isHit(pipes)) {
             ravenBlack.setDead(true);
-            updateDatabase(ravenBlack.getName(), blackScore);
         }
 
 
@@ -179,6 +177,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
                 window.setFont(new Font("SansSerif", Font.PLAIN, 20));
                 window.drawString("Press SPACE to start", 210, 200);
             } else {
+                updateDatabase(ravenBlack.getName(), blackScore);
+                updateDatabase(ravenRed.getName(), redScore);
                 window.setFont(new Font("SansSerif", Font.PLAIN, 30));
                 window.setColor(Color.BLACK);
                 window.drawString("Game Over", 230, 150);
@@ -210,7 +210,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         roundCount = 2;
     }
 
-    public void updateDatabase(String playerName, Score score) {
+    public static void updateDatabase(String playerName, Score score) {
 
         try {
             Path FILE_PATH = Paths.get("Database.txt");
@@ -218,10 +218,10 @@ public class Sky extends Canvas implements KeyListener, Runnable {
 
             for (int i = 0; i < fileContent.size(); i++) {
                 if (fileContent.get(i).contains(playerName)) {
-                    String str = fileContent.get(i);
-                    // String playerScoreStr = str.replaceAll("[^0-9]", "");
-                    // int playerScore = Integer.parseInt(playerScoreStr);
-                    fileContent.set(i, playerName + " " + score.getScore());
+                    String playerScoreStr = fileContent.get(i+1);
+                    int playerScore = Integer.parseInt(playerScoreStr);
+                    playerScore = playerScore + score.getScore();
+                    fileContent.set(i+1, ""+playerScore);
                     break;
                 }
             }
