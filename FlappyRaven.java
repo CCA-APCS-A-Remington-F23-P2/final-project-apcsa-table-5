@@ -44,63 +44,63 @@ public class FlappyRaven extends JFrame {
 
     //helpers
     public boolean exists(String playerName) {
-      BufferedReader reader;
+        BufferedReader reader;
 
-      try {
-        reader = new BufferedReader(new FileReader("Database.txt"));
-        String line = reader.readLine();
+        try {
+            reader = new BufferedReader(new FileReader("Database.txt"));
+            String line = reader.readLine();
 
-        while (line != null) {
-          if(line.equals(playerName)){
-            return true;
-          }
-          // read next line
-          line = reader.readLine() ;
+            while (line != null) {
+                if (line.equals(playerName)) {
+                    return true;
+                }
+                // read next line
+                line = reader.readLine();
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        reader.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      return false;
+        return false;
     }
 
     private void newPlayer(String playerName) {
         try {
-          FileWriter filewriter = new FileWriter(db, true);
-          filewriter.write(playerName + "\n" + 0 + "\n");
-          filewriter.close();
+            FileWriter filewriter = new FileWriter(db, true);
+            filewriter.write(playerName + "\n" + 0 + "\n");
+            filewriter.close();
         } catch (IOException e) {
-          System.out.println("An error occurred.");
+            System.out.println("An error occurred.");
         }
     }
 
     // Database methods
-  public static void updateDatabase(String playerName, Score score) {
+    public static void updateDatabase(String playerName, Score score) {
 
-      try {
-          Path FILE_PATH = Paths.get("Database.txt");
-          ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
+        try {
+            Path FILE_PATH = Paths.get("Database.txt");
+            ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
 
-          for (int i = 0; i < fileContent.size(); i++) {
-              if (fileContent.get(i).contains(playerName)) {
-                  String playerScoreStr = fileContent.get(i+1);
+            for (int i = 0; i < fileContent.size(); i++) {
+                if (fileContent.get(i).contains(playerName)) {
+                    String playerScoreStr = fileContent.get(i + 1);
 
-                  int playerScore = Integer.parseInt(playerScoreStr);
-                  if(playerScore < score.getScore()) {
-                    fileContent.set(i+1, ""+score.getScore());
-                    break;
-                  }
-              }
-          }
+                    int playerScore = Integer.parseInt(playerScoreStr);
+                    if (playerScore < score.getScore()) {
+                        fileContent.set(i + 1, "" + score.getScore());
+                        break;
+                    }
+                }
+            }
 
-          Files.write(FILE_PATH, fileContent);
-      } catch (Exception e) {
-          System.out.println("Error in writing");
-      }
+            Files.write(FILE_PATH, fileContent);
+        } catch (Exception e) {
+            System.out.println("Error in writing");
+        }
 
 
-  }
+    }
 
     public static void main(String[] args, String db) {
         Scanner s = new Scanner(System.in);
