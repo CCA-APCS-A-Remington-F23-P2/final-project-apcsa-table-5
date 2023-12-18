@@ -94,17 +94,21 @@ public class Pipes extends MovingThing {
     @Override
     public void move(String direction) {
         if (getX() <= -topImage.getWidth(null)) {
-            int maxYCenter = SCENE_HEIGHT - 150;
-            int minYCenter = 150;
-            int minGap = 55;
-            int maxGap = 105;
-            setX(SCENE_WIDTH);
-            setYCenter((int) ((Math.random() * (maxYCenter - minYCenter)) + minYCenter));
-            setPipeGap((int) ((Math.random() * (maxGap - minGap)) + minGap));
+            randomizePosAndGap();
         }
 
         setX(getX() + speed);
         xCenter = getX();
+    }
+
+    private void randomizePosAndGap() {
+        int maxYCenter = SCENE_HEIGHT - 150;
+        int minYCenter = 150;
+        int minGap = 55;
+        int maxGap = 105;
+        setX(SCENE_WIDTH);
+        setYCenter((int) ((Math.random() * (maxYCenter - minYCenter)) + minYCenter));
+        setPipeGap((int) ((Math.random() * (maxGap - minGap)) + minGap));
     }
 
     @Override
