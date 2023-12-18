@@ -4,11 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 public class Sky extends Canvas implements KeyListener, Runnable {
@@ -84,41 +80,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
                 }
             }
 
-            //scoring
-            for (Pipes pipe : pipes) {
-                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY())) {
-                    if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenBlack.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenBlack.getX()){
-                        blackInPipe = true;
-                    }
-                }
-
-                if ((pipe.getYCenter() + pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenRed.getY())) {
-                    if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenRed.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenRed.getX()) {
-                        redInPipe = true;
-                    }
-                }
-
-                if(blackInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenBlack.getX()){
-                    blackInPipe = false;
-                    blackScore.setScore(blackScore.getScore() + 1);
-                }
-                if(redInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenRed.getX()){
-                    redInPipe = false;
-                    redScore.setScore(redScore.getScore() + 1);
-                }
-            }
-
-            //speed code
-            int blackRoundScore = blackScore.getScore() - blackScore.getRoundCutOffScore();
-            int redRoundScore = redScore.getScore() - redScore.getRoundCutOffScore();
-            int highestRoundScore = Math.max(blackRoundScore, redRoundScore);
-            if (highestRoundScore % 10 == 0) {
-                for (Pipes pipe : pipes) {
-                    pipe.setSpeed(-(highestRoundScore + 10) / 10);
-                }
-                ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
-                ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
-            }
+            updateScoring();
+            updateSpeed();
         }
 
 
@@ -164,22 +127,63 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             paused = true;
             blackInPipe = false;
             redInPipe = false;
-            if (roundCount <= 3) {
-                window.setFont(new Font("SansSerif", Font.PLAIN, 30));
-                window.setColor(Color.BLACK);
-                window.drawString("Round " + roundCount, 250, 150);
-                window.setFont(new Font("SansSerif", Font.PLAIN, 20));
-                window.drawString("Press SPACE to start", 210, 200);
-            } else {
-                window.setFont(new Font("SansSerif", Font.PLAIN, 30));
-                window.setColor(Color.BLACK);
-                window.drawString("Game Over", 230, 150);
-                window.setFont(new Font("SansSerif", Font.PLAIN, 20));
-                window.drawString("Press SPACE to restart", 200, 200);
+            displayRoundCounter(window);
+        }
+    }
+
+    private void updateScoring() {
+        for (Pipes pipe : pipes) {
+            if ((pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY())) {
+                if (pipe.getXCenter() - (pipe.getWidth() / 2) < ravenBlack.getX() && pipe.getXCenter() + (pipe.getWidth() / 2) > ravenBlack.getX()) {
+                    blackInPipe = true;
+                }
+            }
+
+            if ((pipe.getYCenter() + pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenRed.getY())) {
+                if (pipe.getXCenter() - (pipe.getWidth() / 2) < ravenRed.getX() && pipe.getXCenter() + (pipe.getWidth() / 2) > ravenRed.getX()) {
+                    redInPipe = true;
+                }
+            }
+
+            if (blackInPipe && pipe.getXCenter() + (pipe.getWidth() / 2) < ravenBlack.getX()) {
+                blackInPipe = false;
+                blackScore.setScore(blackScore.getScore() + 1);
+            }
+            if (redInPipe && pipe.getXCenter() + (pipe.getWidth() / 2) < ravenRed.getX()) {
+                redInPipe = false;
+                redScore.setScore(redScore.getScore() + 1);
             }
         }
     }
 
+    private void updateSpeed() {
+        int blackRoundScore = blackScore.getScore() - blackScore.getRoundCutOffScore();
+        int redRoundScore = redScore.getScore() - redScore.getRoundCutOffScore();
+        int highestRoundScore = Math.max(blackRoundScore, redRoundScore);
+        if (highestRoundScore % 10 == 0) {
+            for (Pipes pipe : pipes) {
+                pipe.setSpeed(-(highestRoundScore + 10) / 10);
+            }
+            ravenBlack.setPipeSpeed(pipes.get(0).getSpeed());
+            ravenRed.setPipeSpeed(pipes.get(0).getSpeed());
+        }
+    }
+
+    private void displayRoundCounter(Graphics window) {
+        if (roundCount <= 3) {
+            window.setFont(new Font("SansSerif", Font.PLAIN, 30));
+            window.setColor(Color.BLACK);
+            window.drawString("Round " + roundCount, 250, 150);
+            window.setFont(new Font("SansSerif", Font.PLAIN, 20));
+            window.drawString("Press SPACE to start", 210, 200);
+        } else {
+            window.setFont(new Font("SansSerif", Font.PLAIN, 30));
+            window.setColor(Color.BLACK);
+            window.drawString("Game Over", 230, 150);
+            window.setFont(new Font("SansSerif", Font.PLAIN, 20));
+            window.drawString("Press SPACE to restart", 200, 200);
+        }
+    }
 
     public void resetAll() {
         ravenBlack.reset();
@@ -204,7 +208,6 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         roundCount = 2;
     }
 
-  
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_Q) {
