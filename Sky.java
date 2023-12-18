@@ -31,6 +31,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private boolean blackInPipe = false;
     private boolean redInPipe = false;
 
+    private Round round;
+
     private int roundCount;
 
     private ArrayList<Pipes> pipes;
@@ -47,7 +49,9 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         redScore = new Score(150, 50, Color.RED);
         blackScore = new Score(450, 50, Color.BLACK);
 
-        roundCount = 2;
+        round = new Round(0,0,Color.BLACK);
+
+        
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -153,31 +157,26 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         }
 
 
+        if (ravenBlack.isDead() && ravenRed.isDead() && (playing || paused)) {
+            playing = false;
+            paused = true;
+            blackInPipe = false;
+            redInPipe = false;
+            if (round.getRound() <= 3) {
+                round.draw(graphToBack);
+            } else {
+                round.drawEnd(graphToBack);
+            }
+        }
+
+
         ravenBlack.move();
         ravenRed.move();
         redScore.draw(graphToBack);
         blackScore.draw(graphToBack);
         twoDGraph.drawImage(back, null, 0, 0);
 
-        if (ravenBlack.isDead() && ravenRed.isDead() && (playing || paused)) {
-            playing = false;
-            paused = true;
-            blackInPipe = false;
-            redInPipe = false;
-            if (roundCount <= 3) {
-                window.setFont(new Font("SansSerif", Font.PLAIN, 30));
-                window.setColor(Color.BLACK);
-                window.drawString("Round " + roundCount, 250, 150);
-                window.setFont(new Font("SansSerif", Font.PLAIN, 20));
-                window.drawString("Press SPACE to start", 210, 200);
-            } else {
-                window.setFont(new Font("SansSerif", Font.PLAIN, 30));
-                window.setColor(Color.BLACK);
-                window.drawString("Game Over", 230, 150);
-                window.setFont(new Font("SansSerif", Font.PLAIN, 20));
-                window.drawString("Press SPACE to restart", 200, 200);
-            }
-        }
+        
     }
 
 
@@ -201,7 +200,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         }
         blackScore.reset();
         redScore.reset();
-        roundCount = 2;
+        round.reset();
     }
 
   
@@ -236,7 +235,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             } else {
                 resetAll();
             }
-            roundCount++;
+            round.setRound(round.getRound() + 1);
         }
     }
 
