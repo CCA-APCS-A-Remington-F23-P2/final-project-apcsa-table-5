@@ -192,8 +192,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     }
 
     public void hardReset() {
-        updateDatabase(ravenBlack.getName(), blackScore);
-        updateDatabase(ravenRed.getName(), redScore);
+        FlappyRaven.updateDatabase(ravenBlack.getName(), blackScore);
+        FlappyRaven.updateDatabase(ravenRed.getName(), redScore);
         ravenBlack.reset();
         ravenRed.reset();
         for (Pipes pipe : pipes) {
@@ -204,31 +204,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         roundCount = 2;
     }
 
-    public static void updateDatabase(String playerName, Score score) {
-
-        try {
-            Path FILE_PATH = Paths.get("Database.txt");
-            ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
-
-            for (int i = 0; i < fileContent.size(); i++) {
-                if (fileContent.get(i).contains(playerName)) {
-                    String playerScoreStr = fileContent.get(i+1);
-                  
-                    int playerScore = Integer.parseInt(playerScoreStr);
-                    if(playerScore < score.getScore()) {
-                      fileContent.set(i+1, ""+score.getScore());
-                      break;
-                    }
-                }
-            }
-
-            Files.write(FILE_PATH, fileContent);
-        } catch (Exception e) {
-            System.out.println("Error in writing");
-        }
-
-
-    }
+  
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_Q) {

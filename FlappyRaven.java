@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
+import java.nio.file.Files;
+import java.util.ArrayList;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FlappyRaven extends JFrame {
 
@@ -69,6 +74,33 @@ public class FlappyRaven extends JFrame {
           System.out.println("An error occurred.");
         }
     }
+
+    // Database methods
+  public static void updateDatabase(String playerName, Score score) {
+
+      try {
+          Path FILE_PATH = Paths.get("Database.txt");
+          ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
+
+          for (int i = 0; i < fileContent.size(); i++) {
+              if (fileContent.get(i).contains(playerName)) {
+                  String playerScoreStr = fileContent.get(i+1);
+
+                  int playerScore = Integer.parseInt(playerScoreStr);
+                  if(playerScore < score.getScore()) {
+                    fileContent.set(i+1, ""+score.getScore());
+                    break;
+                  }
+              }
+          }
+
+          Files.write(FILE_PATH, fileContent);
+      } catch (Exception e) {
+          System.out.println("Error in writing");
+      }
+
+
+  }
 
     public static void main(String[] args, String db) {
         Scanner s = new Scanner(System.in);
