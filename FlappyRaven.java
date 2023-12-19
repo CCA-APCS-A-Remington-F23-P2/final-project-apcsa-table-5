@@ -94,8 +94,6 @@ public class FlappyRaven extends JFrame {
                     }
                 }
             }
-            System.out.println(getRankPName(1));
-            System.out.println(getPlayerScore(getRankPName(1)));
 
             Files.write(FILE_PATH, fileContent);
         } catch (Exception e) {
@@ -113,10 +111,10 @@ public class FlappyRaven extends JFrame {
             ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
 
             ArrayList<String> rankedPlayers = new ArrayList<>();
-            // ArrayList<Integer> rankedScores = new ArrayList<>();
+            ArrayList<Integer> rankedScores = new ArrayList<>();
 
 
-            for (int i = fileContent.size() - 1; i > 1; i--) {
+            for (int i = fileContent.size() - 1; i > 1 && fileContent.size() != 0; i--) {
                 // Code to loop through fileContent, find highest score, add to rankedPlayers and rankedscores and then remove from fileContent
                 int highestScore = 0;
                 int highestScoreIndex = 1;
@@ -127,16 +125,18 @@ public class FlappyRaven extends JFrame {
                         highestScoreIndex = j;
                     }
                 }
-                rankedPlayers.add(fileContent.remove(highestScoreIndex - 1));
-                // rankedScores.add(fileContent.remove(highestScoreIndex));
+              rankedPlayers.add(fileContent.get(highestScoreIndex - 1));
+              fileContent.remove(highestScoreIndex - 1);
+                rankedScores.add(Integer.parseInt(fileContent.get(highestScoreIndex-1)));
+              fileContent.remove(highestScoreIndex-1);
             }
 
             return rankedPlayers.get(rank - 1);
 
         } catch (Exception e) {
-            System.out.println("Error in writing");
-            return "Error";
+            System.out.println(e);
         }
+      return "Error";
     }
 
     public static int getPlayerScore(String playerName) {
@@ -152,12 +152,11 @@ public class FlappyRaven extends JFrame {
                     return playerScore;
                 }
             }
-            return -1;
 
         } catch (Exception e) {
-            System.out.println("Error in writing");
-            return -1;
+            System.out.println(e);
         }
+      return -1;
     }
 
 
