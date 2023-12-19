@@ -188,6 +188,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         }
         blackScore.setRoundCutOffScore(blackScore.getScore());
         redScore.setRoundCutOffScore(redScore.getScore());
+        round.setRound(round.getRound() + 1);
     }
 
     public void hardReset() {
@@ -230,12 +231,12 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             keys[2] = false;
             playing = true;
             paused = false;
-            if (roundCount > 3) {
+            if (round.getRound() > 3) {
                 hardReset();
             } else {
                 resetAll();
             }
-            round.setRound(round.getRound() + 1);
+            
         }
     }
 
