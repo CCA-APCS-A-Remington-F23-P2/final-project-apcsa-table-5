@@ -158,6 +158,7 @@ public class FlappyRaven extends JFrame {
       } catch (Exception e) {
           System.out.println("Error in writing");
         return -1;
+    }
   }
 
 
