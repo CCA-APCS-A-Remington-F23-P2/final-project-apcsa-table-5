@@ -95,6 +95,8 @@ public class FlappyRaven extends JFrame {
                   }
               }
           }
+        System.out.println(getRankPName(1));
+        System.out.println(getPlayerScore(getRankPName(1)));
 
           Files.write(FILE_PATH, fileContent);
       } catch (Exception e) {
@@ -138,25 +140,6 @@ public class FlappyRaven extends JFrame {
     }
   }
 
-
-
-  //Database Helpers
-  public static int getPlayerDBIndex(String playerName) {
-    try {
-        Path FILE_PATH = Paths.get("Database.txt");
-        ArrayList<String> fileContent = new ArrayList<>(Files.readAllLines(FILE_PATH));
-
-        for (int i = 0; i < fileContent.size(); i++) {
-          if (fileContent.get(i).equals(playerName)) {
-            return i;
-          }
-        }
-    } catch (Exception e) {
-        System.out.println("Error in writing");
-    }
-    return -1;
-  }
-
   public static int getPlayerScore(String playerName) {
       try {
         Path FILE_PATH = Paths.get("Database.txt");
@@ -170,11 +153,11 @@ public class FlappyRaven extends JFrame {
                 return playerScore;
             }
         }
+        return -1;
 
       } catch (Exception e) {
           System.out.println("Error in writing");
-      }
-    return -1;
+        return -1;
   }
 
 
