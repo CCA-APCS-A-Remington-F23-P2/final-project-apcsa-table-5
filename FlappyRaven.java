@@ -125,10 +125,10 @@ public class FlappyRaven extends JFrame {
                         highestScoreIndex = j;
                     }
                 }
-              rankedPlayers.add(fileContent.get(highestScoreIndex - 1));
-              fileContent.remove(highestScoreIndex - 1);
-                rankedScores.add(Integer.parseInt(fileContent.get(highestScoreIndex-1)));
-              fileContent.remove(highestScoreIndex-1);
+                rankedPlayers.add(fileContent.get(highestScoreIndex - 1));
+                fileContent.remove(highestScoreIndex - 1);
+                rankedScores.add(Integer.parseInt(fileContent.get(highestScoreIndex - 1)));
+                fileContent.remove(highestScoreIndex - 1);
             }
 
             return rankedPlayers.get(rank - 1);
@@ -136,7 +136,7 @@ public class FlappyRaven extends JFrame {
         } catch (Exception e) {
             System.out.println(e);
         }
-      return "Error";
+        return "Error";
     }
 
     public static int getPlayerScore(String playerName) {
@@ -156,7 +156,7 @@ public class FlappyRaven extends JFrame {
         } catch (Exception e) {
             System.out.println(e);
         }
-      return -1;
+        return -1;
     }
 
 

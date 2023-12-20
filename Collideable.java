@@ -1,4 +1,3 @@
-public interface Collideable<T>
-{
-  boolean didCollide(T other);
+public interface Collideable<T> {
+    boolean didCollide(T other);
 }

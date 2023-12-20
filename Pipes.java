@@ -75,6 +75,7 @@ public class Pipes extends MovingThing {
     public int getSpeed() {
         return speed;
     }
+
     public void setSpeed(int speed) {
         this.speed = speed;
     }
@@ -83,8 +84,8 @@ public class Pipes extends MovingThing {
         pipeGap = gap;
     }
 
-    public int getPipeGap(){
-      return pipeGap;
+    public int getPipeGap() {
+        return pipeGap;
     }
 
     public int getWidth() {
@@ -123,8 +124,8 @@ public class Pipes extends MovingThing {
         return super.didCollide(a) && (a.getY() <= getYCenter() - pipeGap - pipeClipThreshold || a.getY() + a.getHeight() >= getYCenter() + pipeGap + pipeClipThreshold);
     }
 
-    public void reset(){
-      setPos(startX,startY);
-      setSpeed(-1);
+    public void reset() {
+        setPos(startX, startY);
+        setSpeed(-1);
     }
 }
