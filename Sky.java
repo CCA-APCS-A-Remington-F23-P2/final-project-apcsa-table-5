@@ -131,7 +131,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             if (round.getRound() <= 3) {
                 round.draw(graphToBack);
             } else {
-                round.drawEnd(graphToBack);
+                round.drawEnd(graphToBack, blackScore.getScore(),redScore.getScore());
             }
         }
 
