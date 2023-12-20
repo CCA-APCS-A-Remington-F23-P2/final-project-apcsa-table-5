@@ -45,9 +45,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         redScore = new Score(150, 50, Color.RED);
         blackScore = new Score(450, 50, Color.BLACK);
 
-        round = new Round(0,0,Color.BLACK);
+        round = new Round(0, 0, Color.BLACK);
 
-        
 
         this.addKeyListener(this);
         new Thread(this).start();
@@ -145,22 +144,22 @@ public class Sky extends Canvas implements KeyListener, Runnable {
     private void updateScoring() {
         for (Pipes pipe : pipes) {
             if ((pipe.getYCenter() + pipe.getPipeGap() > ravenBlack.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenBlack.getY())) {
-                if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenBlack.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenBlack.getX()){
+                if (pipe.getXCenter() - (pipe.getWidth() / 2) < ravenBlack.getX() && pipe.getXCenter() + (pipe.getWidth() / 2) > ravenBlack.getX()) {
                     blackInPipe = true;
                 }
             }
 
             if ((pipe.getYCenter() + pipe.getPipeGap() > ravenRed.getY() && pipe.getYCenter() - pipe.getPipeGap() < ravenRed.getY())) {
-                if(pipe.getXCenter()-(pipe.getWidth()/2) < ravenRed.getX() && pipe.getXCenter()+(pipe.getWidth()/2) > ravenRed.getX()) {
+                if (pipe.getXCenter() - (pipe.getWidth() / 2) < ravenRed.getX() && pipe.getXCenter() + (pipe.getWidth() / 2) > ravenRed.getX()) {
                     redInPipe = true;
                 }
             }
 
-            if(blackInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenBlack.getX()){
+            if (blackInPipe && pipe.getXCenter() + (pipe.getWidth() / 2) < ravenBlack.getX()) {
                 blackInPipe = false;
                 blackScore.setScore(blackScore.getScore() + 1);
             }
-            if(redInPipe && pipe.getXCenter()+(pipe.getWidth()/2)<ravenRed.getX()){
+            if (redInPipe && pipe.getXCenter() + (pipe.getWidth() / 2) < ravenRed.getX()) {
                 redInPipe = false;
                 redScore.setScore(redScore.getScore() + 1);
             }
@@ -204,7 +203,6 @@ public class Sky extends Canvas implements KeyListener, Runnable {
         round.reset();
     }
 
-  
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_Q) {
@@ -236,7 +234,7 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             } else {
                 resetAll();
             }
-            
+
         }
     }
 
