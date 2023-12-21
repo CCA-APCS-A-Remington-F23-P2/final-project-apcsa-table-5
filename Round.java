@@ -65,13 +65,6 @@ public class Round {
     window.setFont(new Font("SansSerif", Font.PLAIN, 30));
     if(score1 > score2){
       window.drawString("Player 1 Wins!", 210, 150);
-
-    public void drawEnd(Graphics window) {
-        window.setFont(new Font("SansSerif", Font.PLAIN, 30));
-        window.setColor(Color.BLACK);
-        window.drawString("Game Over", 230, 150);
-        window.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        window.drawString("Press SPACE to restart", 200, 200);
     }
     else if(score1 < score2){
       window.drawString("Player 2 Wins!", 210, 150);
