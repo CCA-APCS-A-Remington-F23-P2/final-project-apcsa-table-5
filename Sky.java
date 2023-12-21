@@ -130,6 +130,8 @@ public class Sky extends Canvas implements KeyListener, Runnable {
             if (round.getRound() <= 3) {
                 round.draw(graphToBack);
             } else {
+                FlappyRaven.updateDatabase(ravenBlack.getName(), blackScore);
+                FlappyRaven.updateDatabase(ravenRed.getName(), redScore);
                 round.drawEnd(graphToBack, blackScore.getScore(),redScore.getScore());
             }
         }
